@@ -3,7 +3,6 @@ import { LayoutComponent } from './layout.component';
 
 const LAYOUT_ROUTES: Routes = [
     { path: '', component: LayoutComponent, children: [
-        //Home
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', loadChildren: '../pages/home/home.module#HomeModule' }
     ]}

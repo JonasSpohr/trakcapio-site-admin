@@ -5,7 +5,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { SharedModule } from "../../shared/shared.module";
 
 import { HomeComponent } from "./home.component";
-import { QuickStatsComponent } from './quick-stats/quick-stats.component';
 
 const HOME_ROUTE = [
     { path: '', component: HomeComponent }
@@ -13,8 +12,7 @@ const HOME_ROUTE = [
 
 @NgModule ({
     declarations: [
-        HomeComponent,
-        QuickStatsComponent
+        HomeComponent
     ],
     imports: [
         CommonModule,
