@@ -1,0 +1,49 @@
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Manutenção de Funcionários</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" [routerLink]="['detail/0']" type="button">
+                                Novo Funcionário
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>CPF</th>
+                                        <th>Telefone</th>
+                                        <th>Email</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Zé da Silva</th>
+                                        <td>022.888.222-99</td>
+                                        <td>51 - 997784242</td>
+                                        <td>ze@email.com</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" type="button">
+                                                Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" type="button">
+                                                Excluir
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

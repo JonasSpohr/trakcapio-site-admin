@@ -21,7 +21,7 @@
                 <a (click)="toggleNavigationSub('Tables', $event)"><i class="zmdi zmdi-settings"></i> Administração</a>
 
                 <ul [@toggleHeight]="navigationSubState.Tables">
-                    <li routerLinkActive="navigation__active"><a [routerLink]="['/table/table']">Funcionários</a></li>
+                    <li routerLinkActive="navigation__active"><a [routerLink]="['/employees']">Funcionários</a></li>
                 </ul>
             </li>
             <li routerLinkActive="navigation__active"><a [routerLink]="['/routes']"><i class="zmdi zmdi zmdi-truck"></i> Rotas</a></li>
