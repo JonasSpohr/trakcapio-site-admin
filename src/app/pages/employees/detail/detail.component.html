@@ -13,21 +13,21 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nome*</label>
-                                <input class="form-control" placeholder="Nome" type="text">
+                                <input class="form-control" placeholder="Nome" [(ngModel)]="viewModel.name" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Telefone Celular*</label>
-                                <input class="form-control" placeholder="Telefone celular" type="text">
+                                <input class="form-control" placeholder="Telefone celular" [(ngModel)]="viewModel.phone" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Email</label>
-                                <input class="form-control" placeholder="Email" type="text">
+                                <input class="form-control" placeholder="Email" [(ngModel)]="viewModel.email" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
@@ -35,8 +35,15 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label>CPF*</label>
+                                <input class="form-control" placeholder="CPF" [(ngModel)]="viewModel.socialNumber" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label>Nº da CNH</label>
-                                <input class="form-control" placeholder="Nº da CNH" type="text">
+                                <input class="form-control" placeholder="Nº da CNH" [(ngModel)]="viewModel.driverLicenseNumber" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
@@ -50,7 +57,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>CEP*</label>
-                                <input class="form-control" placeholder="CEP" type="text">
+                                <input class="form-control" (blur)="checkCep()" placeholder="CEP" [(ngModel)]="viewModel.address.zipCode" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
@@ -59,21 +66,21 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Logradouro*</label>
-                                <input class="form-control" placeholder="Logradouro" type="text">
+                                <input class="form-control" placeholder="Logradouro" [(ngModel)]="viewModel.address.street" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nº*</label>
-                                <input class="form-control" placeholder="Nº" type="text">
+                                <input class="form-control" placeholder="Nº" [(ngModel)]="viewModel.address.number" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Complemento</label>
-                                <input class="form-control" placeholder="Complemento" type="text">
+                                <input class="form-control" placeholder="Complemento" [(ngModel)]="viewModel.address.complement" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
@@ -82,31 +89,31 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Bairro*</label>
-                                <input class="form-control" placeholder="Bairro" type="text">
+                                <input class="form-control" placeholder="Bairro" [(ngModel)]="viewModel.address.district" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Cidadeº*</label>
-                                <input class="form-control" placeholder="Cidade" type="text">
+                                <input class="form-control" placeholder="Cidade" [(ngModel)]="viewModel.address.city" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Estado*</label>
-                                <input class="form-control" placeholder="Estado" type="text">
+                                <input class="form-control" placeholder="Estado" [(ngModel)]="viewModel.address.state" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-12">
-                            <button class="btn btn-primary" type="button">
+                            <button class="btn btn-primary" (click)="save()" type="button">
                                 Salvar
                             </button>
-                            <button class="btn btn-default" type="button">
+                            <button class="btn btn-default" (click)="cancel()" type="button">
                                 Cancelar
                             </button>
                         </div>
@@ -115,4 +122,5 @@
             </div>
         </div>
     </div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop : true }"></ngx-loading>
 </section>

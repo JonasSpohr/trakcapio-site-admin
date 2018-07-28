@@ -7,13 +7,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { SharedService } from "./shared/services/shared.service";
 import { routing } from './app.routing';
+import { LoadingModule } from 'ngx-loading';
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
     BrowserAnimationsModule,
-    routing
+    routing,    
+    LoadingModule
   ],
   declarations: [
     AppComponent

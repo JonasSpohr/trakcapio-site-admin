@@ -24,16 +24,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">Zé da Silva</th>
-                                        <td>022.888.222-99</td>
-                                        <td>51 - 997784242</td>
-                                        <td>ze@email.com</td>
+                                    <tr *ngFor="let item of items">
+                                        <th scope="row">{{item.name}}</th>
+                                        <td>{{item.socialNumber}}</td>
+                                        <td>{{item.phone}}</td>
+                                        <td>{{item.email}}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm" type="button">
+                                            <button class="btn btn-primary btn-sm" (click)="detail(item._id)" type="button">
                                                 Editar
                                             </button>
-                                            <button class="btn btn-danger btn-sm" type="button">
+                                            <button class="btn btn-danger btn-sm" (click)="delete(item._id)" type="button">
                                                 Excluir
                                             </button>
                                         </td>
@@ -46,4 +46,5 @@
             </div>
         </div>
     </div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop : true }"></ngx-loading>
 </section>
