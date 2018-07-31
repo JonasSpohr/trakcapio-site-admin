@@ -6,13 +6,16 @@ import { SharedModule } from "../../shared/shared.module";
 
 import { RouteListComponent } from "./route-list.component";
 import { RouteDetailComponent } from "./detail/detail.component";
+import { NgxPaginationModule } from 'ngx-pagination';
+
+import { LoadingModule } from 'ngx-loading';
 
 const HOME_ROUTE = [
     { path: '', component: RouteListComponent },
     { path: 'detail/:id', component: RouteDetailComponent }
 ];
 
-@NgModule ({
+@NgModule({
     declarations: [
         RouteListComponent,
         RouteDetailComponent
@@ -21,8 +24,10 @@ const HOME_ROUTE = [
         CommonModule,
         SharedModule,
         BsDropdownModule.forRoot(),
-        RouterModule.forChild(HOME_ROUTE)
+        RouterModule.forChild(HOME_ROUTE),
+        LoadingModule,
+        NgxPaginationModule
     ]
 })
 
-export class RouteListModule {  }
+export class RouteListModule { }

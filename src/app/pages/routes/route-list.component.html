@@ -18,17 +18,17 @@
                                     <tr>
                                         <th>Data Programada</th>
                                         <th>Motorista Responsável</th>
-                                        <th>Qtd. Pacotes</th>
-                                        <th>Status</th>
+                                        <th>Contato Motorista</th>
+                                        <th class="d-none d-sm-block">Qtd. Pacotes</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">01/08/2018</th>
-                                        <td>Jonas Spohr</td>
-                                        <td>15</td>
-                                        <td>Pendente Processamento</td>
+                                    <tr *ngFor="let item of items | paginate: { itemsPerPage: 10, currentPage: p } ">
+                                        <th scope="row">{{ item.dateSchedule | date : 'dd/MM/yyyy' }}</th>
+                                        <td>{{ item.employee[0].name }}</td>
+                                        <td>{{ item.employee[0].phone }}</td>
+                                        <td>{{ item.packages.length }}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm" type="button">
                                                 Editar
@@ -42,8 +42,12 @@
                             </table>
                         </div>
                     </div>
+                    <pagination-controls (pageChange)="p = $event" directionLinks="true" autoHide="true" previousLabel="Anterior" nextLabel="Próxima"
+                        screenReaderPaginationLabel="Paginação" screenReaderCurrentLabel="Página atual" class="overwrite-ul">
+                    </pagination-controls>
                 </div>
             </div>
         </div>
     </div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop : true }"></ngx-loading>
 </section>
