@@ -4,6 +4,55 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Manutenção das Rotas - Detalhes</h4>
+
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Funcionário Responsavel (Motorista)*</label>
+                                <select2 [data]="employees" [options]="options"></select2>
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Data entrega (previsão)*</label>
+                                <input class="form-control" placeholder="Data entrega" [(ngModel)]="viewModel.dateSchedule" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <h5 class="card-subtitle">
+                                Adicione todos os pacotes que serão entregues na rota que está sendo cadastrada.
+                                <br> Para adicionar um novo pacote clique no botao
+                                <strong>Novo pacote</strong>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" (click)="ModalLarge.show()">Novo Pacote</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop : true }"></ngx-loading>
+    <div bsModal #ModalLarge="bs-modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title pull-left">Large modal</h5>
+                </div>
+                <div class="modal-body">
+                    Curabitur blandit mollis lacus. Nulla sit amet est. Suspendisse nisl elit, rhoncus eget, elementum ac, condimentum eget,
+                    diam. Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi. Cras sagittis.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link">Save changes</button>
+                    <button type="button" class="btn btn-link" (click)="ModalLarge.hide()">Close</button>
                 </div>
             </div>
         </div>

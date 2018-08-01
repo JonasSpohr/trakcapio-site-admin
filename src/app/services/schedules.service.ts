@@ -42,6 +42,21 @@ export class SchedulesService {
       .catch(this.handleError);
   }
 
+  getListEmployees(companyId: string): Observable<any[]> {
+    const options = new RequestOptions(
+      {
+        headers: this.headers
+      }
+    );
+
+    return this.http
+      .get(this._url + "employees/all/" + companyId, options)
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
   delete(id: String): Observable<any[]> {
     const options = new RequestOptions(
       {
