@@ -4,23 +4,27 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Manutenção das Rotas - Detalhes</h4>
-
                     <div class="row mt-3">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Funcionário Responsavel (Motorista)*</label>
-                                <select2 [data]="employees" [options]="options"></select2>
-                                <i class="form-group__bar"></i>
+                            <label>Funcionário Responsavel (Motorista)*</label>
+                            <div class="form-group form-group--select">
+                                <div class="select">
+                                    <select class="form-control" [(ngModel)]="viewModel.employee" [disabled]="viewModel.packages.length > 0">
+                                        <option *ngFor="let item of employees" value="{{item.id}}">{{item.text}}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Data entrega (previsão)*</label>
-                                <input class="form-control" placeholder="Data entrega" [(ngModel)]="viewModel.dateSchedule" type="text">
+                                <input [disabled]="viewModel.packages.length > 0" [textMask]="{mask: maskDate}" class="form-control" placeholder="ex: 23/02/2017"
+                                    [(ngModel)]="viewModel.dateSchedule" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                     </div>
+
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <h5 class="card-subtitle">
@@ -32,7 +36,52 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <button class="btn btn-primary" (click)="ModalLarge.show()">Novo Pacote</button>
+                            <button class="btn btn-primary" (click)="addNewPkg(ModalLarge)">Novo Pacote</button>
+                        </div>
+                    </div>
+                    <h4 class="card-title mt-4">Pacotes associados a rota</h4>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Ordem</th>
+                                        <th>Cliente</th>
+                                        <th>Telefone Cliente</th>
+                                        <th>Orderm</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of viewModel.packages">
+                                        <th scope="row">{{ item.order }}</th>
+                                        <td>{{ item.client.name }}</td>
+                                        <td>{{ item.client.phone }}</td>
+                                        <td>
+                                            <button [disabled]="viewModel.packages.length == 1" class="btn btn-primary btn-sm" type="button">
+                                                Subir
+                                            </button>
+                                            <button [disabled]="viewModel.packages.length == 1" class="btn btn-warning btn-sm" type="button">
+                                                Descer
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" type="button">
+                                                Excluir
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="viewModel.packages.length == 0">
+                                        <td colspan="4" style="text-align: center">
+                                            <label>Nenhum pacote associado a rota</label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" [disabled]="viewModel.packages.length == 0">Salvar</button>
+                            <button class="btn btn-success" [disabled]="viewModel.packages.length == 0">Salvar e Processar</button>
+                            <button class="btn btn-default">Cancelar</button>
                         </div>
                     </div>
                 </div>
@@ -40,19 +89,108 @@
         </div>
     </div>
     <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop : true }"></ngx-loading>
-    <div bsModal #ModalLarge="bs-modal" class="modal fade">
+    <div bsModal #ModalLarge="bs-modal" class="modal fade" [config]="{ ignoreBackdropClick: true, keyboard: false }">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title pull-left">Large modal</h5>
+                    <h5 class="modal-title pull-left">Adicionar Pacote na Rota</h5>
                 </div>
                 <div class="modal-body">
-                    Curabitur blandit mollis lacus. Nulla sit amet est. Suspendisse nisl elit, rhoncus eget, elementum ac, condimentum eget,
-                    diam. Donec mi odio, faucibus at, scelerisque quis, convallis in, nisi. Cras sagittis.
+                    <h4 class="card-subtitle">Dados do Cliente</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Nome*</label>
+                                <input class="form-control" placeholder="Nome do cliente" [(ngModel)]="package.clientName" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Telefone Celular*</label>
+                                <input [textMask]="{mask: maskPhoneOdd}" class="form-control" placeholder="ex: 51 9999-55555" [(ngModel)]="package.clientPhone"
+                                    type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CPF</label>
+                                <input [textMask]="{mask: maskCPF}" class="form-control" placeholder="CPF do cliente" [(ngModel)]="package.clientSocialNumber"
+                                    type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Conteúdo Pacote*</label>
+                                <input class="form-control" placeholder="Ex. TV 42 Polegadas" [(ngModel)]="package.content" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 class="card-subtitle mt-1">Endereço da Entrega</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>CEP*</label>
+                                <input [textMask]="{mask: maskCEP}" (blur)="checkCep()" class="form-control" placeholder="CEP" [(ngModel)]="package.address.zipCode"
+                                    type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Logradouro*</label>
+                                <input class="form-control" placeholder="Ex. Rua A" [(ngModel)]="package.address.street" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Número*</label>
+                                <input [textMask]="{mask: maskNumber}" class="form-control" placeholder="ex: 12345" [(ngModel)]="package.address.number"
+                                    type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Complemento</label>
+                                <input class="form-control" placeholder="ex. Casa" [(ngModel)]="package.address.complement" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Bairro*</label>
+                                <input class="form-control" placeholder="Ex. Centro" [(ngModel)]="package.address.district" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Cidade*</label>
+                                <input class="form-control" placeholder="ex: Porto Alegre" [(ngModel)]="package.address.city" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Estado*</label>
+                                <input class="form-control" placeholder="ex. RS" [(ngModel)]="package.address.state" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-link">Save changes</button>
-                    <button type="button" class="btn btn-link" (click)="ModalLarge.hide()">Close</button>
+                    <button type="button" class="btn btn-link" (click)="appendPackage(ModalLarge)">Adicionar</button>
+                    <button type="button" class="btn btn-link" (click)="ModalLarge.hide()">Cancelar</button>
                 </div>
             </div>
         </div>

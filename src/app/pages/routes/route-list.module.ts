@@ -12,6 +12,7 @@ import { Select2Module } from 'ng2-select2';
 
 import { LoadingModule } from 'ngx-loading';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TextMaskModule } from 'angular2-text-mask';
 
 const HOME_ROUTE = [
     { path: '', component: RouteListComponent },
@@ -32,7 +33,8 @@ const HOME_ROUTE = [
         LoadingModule,
         NgxPaginationModule,
         FormsModule,
-        Select2Module
+        Select2Module,
+        TextMaskModule
     ]
 })
 
