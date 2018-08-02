@@ -9,7 +9,7 @@
                             <label>Funcionário Responsavel (Motorista)*</label>
                             <div class="form-group form-group--select">
                                 <div class="select">
-                                    <select class="form-control" [(ngModel)]="viewModel.employee" [disabled]="viewModel.packages.length > 0">
+                                    <select class="form-control" [(ngModel)]="viewModel.employee">
                                         <option *ngFor="let item of employees" value="{{item.id}}">{{item.text}}</option>
                                     </select>
                                 </div>
@@ -42,6 +42,11 @@
                     <h4 class="card-title mt-4">Pacotes associados a rota</h4>
                     <div class="row">
                         <div class="col-md-12">
+                            <div *ngIf="viewModel.packages.length > 0" class="alert alert-warning" role="alert">
+                                Para mudar a <strong>ordem</strong> de entrega dos pacotes utilize o botões: 
+                                <i class="zmdi zmdi-chevron-up"></i> (Mover para cima)&nbsp;
+                                <i class="zmdi zmdi-chevron-down"></i> (Mover para baixo)
+                            </div>
                             <table class="table table-hover mb-0">
                                 <thead>
                                     <tr>
@@ -52,16 +57,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of viewModel.packages">
+                                    <tr *ngFor="let item of viewModel.packages; let i = index">
                                         <th scope="row">{{ item.order }}</th>
                                         <td>{{ item.client.name }}</td>
                                         <td>{{ item.client.phone }}</td>
                                         <td>
-                                            <button [disabled]="viewModel.packages.length == 1" class="btn btn-primary btn-sm" type="button">
-                                                Subir
+                                            <button [disabled]="viewModel.packages.length == 1 || i == 0" class="btn btn-default btn-sm" type="button" (click)="changeOrder(i, i - 1, true)">
+                                                <i class="zmdi zmdi-chevron-up"></i>
                                             </button>
-                                            <button [disabled]="viewModel.packages.length == 1" class="btn btn-warning btn-sm" type="button">
-                                                Descer
+                                            <button [disabled]="viewModel.packages.length == 1 || i == (viewModel.packages.length - 1)" class="btn btn-default btn-sm"
+                                                type="button" (click)="changeOrder(i, i + 1, false)">
+                                                <i class="zmdi zmdi-chevron-down"></i>
                                             </button>
                                             <button class="btn btn-danger btn-sm" type="button">
                                                 Excluir
@@ -79,8 +85,8 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <button class="btn btn-primary" [disabled]="viewModel.packages.length == 0">Salvar</button>
-                            <button class="btn btn-success" [disabled]="viewModel.packages.length == 0">Salvar e Processar</button>
+                            <button class="btn btn-primary" (click)="save()" [disabled]="viewModel.packages.length == 0">Salvar</button>
+                            <button class="btn btn-success" (click)="saveAndProcess()" [disabled]="viewModel.packages.length == 0">Salvar e Processar</button>
                             <button class="btn btn-default">Cancelar</button>
                         </div>
                     </div>

@@ -24,6 +24,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <td colspan="5" style="text-align:center">
+                                            <label>Nenhuma rota cadastrada</label>
+                                        </td>
+                                    </tr>
                                     <tr *ngFor="let item of items | paginate: { itemsPerPage: 10, currentPage: p } ">
                                         <th scope="row">{{ item.dateSchedule | date : 'dd/MM/yyyy' }}</th>
                                         <td>{{ item.employee[0].name }}</td>

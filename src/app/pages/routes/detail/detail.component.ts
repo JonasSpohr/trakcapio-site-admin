@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SchedulesService } from '../../../services/schedules.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Select2OptionData } from 'ng2-select2';
+import { confirm } from 'dropzone';
 
 @Component({
     selector: 'route-detail',
@@ -65,7 +66,7 @@ export class RouteDetailComponent implements OnInit {
                 if (response.success) {
                     this.employees = response.result.map((item: any) => {
                         return <Select2OptionData>{
-                            id: item._id,
+                            id: item.socialNumber,
                             text: item.name
                         }
                     });
@@ -80,7 +81,7 @@ export class RouteDetailComponent implements OnInit {
             })
     }
 
-    addNewPkg(modal : any) : void {
+    addNewPkg(modal: any): void {
         if (!this.viewModel.employee || this.viewModel.employee == '') {
             alert('O funcionário responsável (motorista) pela entrega deve ser informado.');
             return;
@@ -94,7 +95,18 @@ export class RouteDetailComponent implements OnInit {
         modal.show();
     }
 
-    appendPackage(closeModalEvent : any): void {
+    changeOrder(currentIndex: number, nextIndex: number, up: boolean): void {
+        let currentValue = this.viewModel.packages[currentIndex];
+        currentValue.order = up ? currentValue.order - 1 : currentValue.order + 1;
+
+        let nextValue = this.viewModel.packages[nextIndex];
+        nextValue.order = up ? nextValue.order + 1 : nextValue.order - 1;
+
+        this.viewModel.packages[currentIndex] = nextValue;
+        this.viewModel.packages[nextIndex] = currentValue;
+    }
+
+    appendPackage(closeModalEvent: any): void {
         if (!this.package.clientName || this.package.clientName == '') {
             alert('O nome do cliente deve ser informado.');
             return;
@@ -137,7 +149,7 @@ export class RouteDetailComponent implements OnInit {
                 name: this.package.clientName,
                 phone: '+55' + this.package.clientPhone,
                 socialNumber: this.package.clientSocialNumber,
-                address: [this.package.address],
+                address: this.package.address,
             },
             address: this.package.address,
             name: this.package.content,
@@ -182,6 +194,52 @@ export class RouteDetailComponent implements OnInit {
                     this.loading = false;
                 })
         }
+    }
+
+    save(processSendSMS: boolean = false): void {
+        if (!this.viewModel.employee || this.viewModel.employee == '') {
+            alert('Favor selecionar o funcionário responsável por realizar a entrega.');
+            return;
+        }
+        if (!this.viewModel.dateSchedule || this.viewModel.dateSchedule == '') {
+            alert('Favor informa a data prevista para a realização da entrega.');
+            return;
+        }
+        if (!this.viewModel.packages || this.viewModel.packages.length == 0) {
+            alert('A rota precisa ter pelo menos um pacote para ser entregue.');
+            return;
+        }
+
+        let employeeSocialNumber = this.viewModel.employee;
+        this.viewModel.employee = {
+            socialNumber: employeeSocialNumber
+        }
+        this.viewModel.processSendSMS = processSendSMS;
+        this.viewModel.companyId = '5b48be0402eebd0014cef631';
+        this.viewModel.userId = '5b2564b43ca749254842f5f8';
+        this.viewModel.urlNotificaton = 'https://trackapio.herokuapp.com/api/statusnotification/'
+
+        this.loading = true;
+        this.service.insert(this.viewModel)
+            .subscribe(
+            (response: any) => {
+                if (response.success) {
+                    alert('Operação efetuada com sucesso.');
+                } else {
+                    alert(response.errorMessage);
+                }
+
+                this.loading = false;
+            },
+            error => {
+                this.loading = false;
+            })
+    }
+
+    saveAndProcess(): void {
+        confirm('Atenção: Você confirma que deseja notificar os clientes sobre a data prevista para a entrega?', () => {
+            this.save(true);
+        })
     }
 
 }

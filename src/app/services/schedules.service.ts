@@ -124,8 +124,6 @@ export class SchedulesService {
       }
     );
 
-    model.companyId = '5b48be0402eebd0014cef631';
-
     return this.http.post(this._url + 'schedules', model, options)
       .map((response: Response) => {
         if (response.json().success == false)

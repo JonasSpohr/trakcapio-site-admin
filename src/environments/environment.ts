@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  ENV: 'DEBUG',
+  ENV: 'PROD',
   API_ENDPOINT_DEBUG : 'http://localhost:3000/api/',
-  API_ENDPOINT_PROD : '',
-  API_ENDPOINT_HOMOLOG: ''
+  API_ENDPOINT_PROD : 'https://trackapio.herokuapp.com/api/',
+  API_ENDPOINT_HOMOLOG: 'https://trackapio.herokuapp.com/api/'
 };
