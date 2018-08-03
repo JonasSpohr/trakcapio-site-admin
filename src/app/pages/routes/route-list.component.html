@@ -25,7 +25,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td colspan="5" style="text-align:center">
+                                        <td colspan="5" *ngIf="items.length == 0" style="text-align:center">
                                             <label>Nenhuma rota cadastrada</label>
                                         </td>
                                     </tr>
@@ -35,10 +35,10 @@
                                         <td>{{ item.employee[0].phone }}</td>
                                         <td>{{ item.packages.length }}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm" type="button">
-                                                Editar
+                                            <button class="btn btn-primary btn-sm" (click)="view(item._id)" type="button">
+                                                Visualizar
                                             </button>
-                                            <button class="btn btn-danger btn-sm" type="button">
+                                            <button class="btn btn-danger btn-sm" (click)="delete(item._id)" type="button">
                                                 Excluir
                                             </button>
                                         </td>

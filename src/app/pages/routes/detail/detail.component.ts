@@ -13,6 +13,7 @@ import { confirm } from 'dropzone';
 export class RouteDetailComponent implements OnInit {
 
     public loading = false;
+    editing: boolean = false;
     router: Router;
     route: ActivatedRoute;
     service: SchedulesService;
@@ -56,6 +57,53 @@ export class RouteDetailComponent implements OnInit {
 
     ngOnInit() {
         this.loadEmployeeList();
+
+        this.route.params.subscribe(params => {
+            if (params['id']) {
+                this.viewModel._id = params['id'];
+                this.loadDetail();
+            }
+        });
+    }
+
+    loadDetail(): void {
+        if (this.viewModel._id == "0") {
+            return;
+        }
+
+        this.loading = true;
+        this.service.getDetail(this.viewModel._id)
+            .subscribe(
+            (response: any) => {
+                if (response.success) {
+                    let model = response.result;
+                    this.editing = true;
+                    this.viewModel.employee = model.employee[0].socialNumber;
+                    this.viewModel.dateSchedule = new Date(model.dateSchedule).toLocaleDateString();
+                    this.viewModel.packages = [];
+
+                    for (let p = 0; p < model.packages.length; p++) {
+                        this.viewModel.packages.push({
+                            order: model.packages[p].order,
+                            client: {
+                                name: model.packages[p].client.name,
+                                phone: model.packages[p].client.phone
+                            }
+                        });
+                    }
+
+                    this.viewModel.processed = model.processed ? model.processed : false;
+
+                } else {
+                    alert(response.errorMessage);
+                }
+
+                this.loading = false;
+            },
+            error => {
+                console.log("Error :: " + error);
+                this.loading = false;
+            })
     }
 
     loadEmployeeList(): void {
@@ -228,7 +276,7 @@ export class RouteDetailComponent implements OnInit {
                 } else {
                     alert(response.errorMessage);
                 }
-
+                this.router.navigate(['/routes']);
                 this.loading = false;
             },
             error => {
@@ -240,6 +288,32 @@ export class RouteDetailComponent implements OnInit {
         confirm('Atenção: Você confirma que deseja notificar os clientes sobre a data prevista para a entrega?', () => {
             this.save(true);
         })
+    }
+
+    process() {
+        confirm('Atenção: Você confirma que deseja notificar os clientes sobre a data prevista para a entrega?', () => {
+            this.loading = true;
+            this.service.process(this.viewModel._id, '5b48be0402eebd0014cef631')
+                .subscribe(
+                (response: any) => {
+                    if (response.success) {
+                        alert('Operação efetuada com sucesso.');
+                        this.viewModel.processed = true;
+                    } else {
+                        alert(response.errorMessage);
+                    }
+
+                    this.loading = false;
+                },
+                error => {
+                    this.loading = false;
+                })
+        })
+
+    }
+
+    cancel(): void {
+        this.router.navigate(['/routes']);
     }
 
 }

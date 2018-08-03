@@ -134,6 +134,26 @@ export class SchedulesService {
       .catch(this.handleError);
   }
 
+  process(id: any, companyId: any) {
+    const options = new RequestOptions(
+      {
+        headers: this.headers
+      }
+    );
+
+    return this.http.post(this._url + 'schedules/process', {
+      companyId: companyId,
+      scheduleId: id
+    }, options)
+      .map((response: Response) => {
+        if (response.json().success == false)
+          this.handleErrorMessage(response.json().errorMessage);
+
+        return response.json()
+      })
+      .catch(this.handleError);
+  }
+
   private handleErrorMessage(error: String) {
     return Observable.throw(error);
   }

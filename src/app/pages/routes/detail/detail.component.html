@@ -4,12 +4,19 @@
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Manutenção das Rotas - Detalhes</h4>
-                    <div class="row mt-3">
+                    <div class="row mt-3" *ngIf="editing == true">
+                        <div class="col-md-12">
+                            <div class="alert alert-warning">
+                                Atenção: Rotas não podem ser alteradas.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <label>Funcionário Responsavel (Motorista)*</label>
                             <div class="form-group form-group--select">
                                 <div class="select">
-                                    <select class="form-control" [(ngModel)]="viewModel.employee">
+                                    <select [disabled]="editing" class="form-control" [(ngModel)]="viewModel.employee">
                                         <option *ngFor="let item of employees" value="{{item.id}}">{{item.text}}</option>
                                     </select>
                                 </div>
@@ -18,14 +25,16 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Data entrega (previsão)*</label>
-                                <input [disabled]="viewModel.packages.length > 0" [textMask]="{mask: maskDate}" class="form-control" placeholder="ex: 23/02/2017"
+                                <input *ngIf="editing == false" [disabled]="viewModel.packages.length > 0 || editing" [textMask]="{mask: maskDate}" class="form-control" placeholder="ex: 23/02/2017"
+                                    [(ngModel)]="viewModel.dateSchedule" type="text">
+                                    <input *ngIf="editing == true" [disabled]="viewModel.packages.length > 0 || editing" class="form-control" placeholder="ex: 23/02/2017"
                                     [(ngModel)]="viewModel.dateSchedule" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row mt-3">
+                    <div class="row mt-3" *ngIf="editing == false">
                         <div class="col-md-12">
                             <h5 class="card-subtitle">
                                 Adicione todos os pacotes que serão entregues na rota que está sendo cadastrada.
@@ -34,7 +43,7 @@
                             </h5>
                         </div>
                     </div>
-                    <div class="row mt-3">
+                    <div class="row mt-3" *ngIf="editing == false">
                         <div class="col-md-12">
                             <button class="btn btn-primary" (click)="addNewPkg(ModalLarge)">Novo Pacote</button>
                         </div>
@@ -42,8 +51,9 @@
                     <h4 class="card-title mt-4">Pacotes associados a rota</h4>
                     <div class="row">
                         <div class="col-md-12">
-                            <div *ngIf="viewModel.packages.length > 0" class="alert alert-warning" role="alert">
-                                Para mudar a <strong>ordem</strong> de entrega dos pacotes utilize o botões: 
+                            <div *ngIf="viewModel.packages.length > 0 && editing == false" class="alert alert-warning" role="alert">
+                                Para mudar a
+                                <strong>ordem</strong> de entrega dos pacotes utilize o botões:
                                 <i class="zmdi zmdi-chevron-up"></i> (Mover para cima)&nbsp;
                                 <i class="zmdi zmdi-chevron-down"></i> (Mover para baixo)
                             </div>
@@ -53,7 +63,7 @@
                                         <th>Ordem</th>
                                         <th>Cliente</th>
                                         <th>Telefone Cliente</th>
-                                        <th>Orderm</th>
+                                        <th *ngIf="editing == false">Orderm</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,14 +72,15 @@
                                         <td>{{ item.client.name }}</td>
                                         <td>{{ item.client.phone }}</td>
                                         <td>
-                                            <button [disabled]="viewModel.packages.length == 1 || i == 0" class="btn btn-default btn-sm" type="button" (click)="changeOrder(i, i - 1, true)">
+                                            <button *ngIf="editing == false" [disabled]="viewModel.packages.length == 1 || i == 0" class="btn btn-default btn-sm" type="button"
+                                                (click)="changeOrder(i, i - 1, true)">
                                                 <i class="zmdi zmdi-chevron-up"></i>
                                             </button>
-                                            <button [disabled]="viewModel.packages.length == 1 || i == (viewModel.packages.length - 1)" class="btn btn-default btn-sm"
+                                            <button *ngIf="editing == false" [disabled]="viewModel.packages.length == 1 || i == (viewModel.packages.length - 1)" class="btn btn-default btn-sm"
                                                 type="button" (click)="changeOrder(i, i + 1, false)">
                                                 <i class="zmdi zmdi-chevron-down"></i>
                                             </button>
-                                            <button class="btn btn-danger btn-sm" type="button">
+                                            <button *ngIf="editing == false" class="btn btn-danger btn-sm" type="button">
                                                 Excluir
                                             </button>
                                         </td>
@@ -85,9 +96,10 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <button class="btn btn-primary" (click)="save()" [disabled]="viewModel.packages.length == 0">Salvar</button>
-                            <button class="btn btn-success" (click)="saveAndProcess()" [disabled]="viewModel.packages.length == 0">Salvar e Processar</button>
-                            <button class="btn btn-default">Cancelar</button>
+                            <button *ngIf="editing == false" class="btn btn-primary" (click)="save()" [disabled]="viewModel.packages.length == 0">Salvar</button>
+                            <button *ngIf="editing == false" class="btn btn-success" (click)="saveAndProcess()" [disabled]="viewModel.packages.length == 0">Salvar e Processar</button>
+                            <button *ngIf="editing && viewModel.processed == false" class="btn btn-success" (click)="process()" >Processar</button>
+                            <button class="btn btn-default" (click)="cancel()">Cancelar</button>
                         </div>
                     </div>
                 </div>
