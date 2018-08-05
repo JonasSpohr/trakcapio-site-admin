@@ -14,8 +14,10 @@ export class EmployeeService {
     this.user = JSON.parse(localStorage.getItem("currentUser"));
 
     this.headers.append('Content-Type', 'application/json');
-    this.headers.append('user_id', this.user.id);
-    this.headers.append('auth_token', this.user.internalToken);
+    if (this.user) {
+      this.headers.append('user_id', this.user.id);
+      this.headers.append('auth_token', this.user.internalToken);
+    }
     this.headers.append('Access-Control-Allow-Origin', '*');
 
     if (environment.ENV == 'DEBUG') {
