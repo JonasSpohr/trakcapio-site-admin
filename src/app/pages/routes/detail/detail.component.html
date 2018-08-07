@@ -63,7 +63,8 @@
                                         <th>Ordem</th>
                                         <th>Cliente</th>
                                         <th>Telefone Cliente</th>
-                                        <th *ngIf="editing == false">Orderm</th>
+                                        <th *ngIf="!editing">Ações</th>
+                                        <th *ngIf="editing">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,16 +72,17 @@
                                         <th scope="row">{{ item.order }}</th>
                                         <td>{{ item.client.name }}</td>
                                         <td>{{ item.client.phone }}</td>
-                                        <td>
-                                            <button *ngIf="editing == false" [disabled]="viewModel.packages.length == 1 || i == 0" class="btn btn-default btn-sm" type="button"
+                                        <td>{{ item.status }}</td>
+                                        <td *ngIf="!editing">
+                                            <button  [disabled]="viewModel.packages.length == 1 || i == 0" class="btn btn-default btn-sm" type="button"
                                                 (click)="changeOrder(i, i - 1, true)">
                                                 <i class="zmdi zmdi-chevron-up"></i>
                                             </button>
-                                            <button *ngIf="editing == false" [disabled]="viewModel.packages.length == 1 || i == (viewModel.packages.length - 1)" class="btn btn-default btn-sm"
+                                            <button [disabled]="viewModel.packages.length == 1 || i == (viewModel.packages.length - 1)" class="btn btn-default btn-sm"
                                                 type="button" (click)="changeOrder(i, i + 1, false)">
                                                 <i class="zmdi zmdi-chevron-down"></i>
                                             </button>
-                                            <button *ngIf="editing == false" class="btn btn-danger btn-sm" type="button">
+                                            <button  class="btn btn-danger btn-sm" type="button">
                                                 Excluir
                                             </button>
                                         </td>

@@ -83,8 +83,22 @@ export class RouteDetailComponent implements OnInit {
                     this.viewModel.packages = [];
 
                     for (let p = 0; p < model.packages.length; p++) {
+                        let status : string  = 'Pendente de Resposta';
+
+                        let history = model.packages[p].statusHistory;
+
+                        for(let h = 0; h < history.length; h++){
+                            if(history[h].status == 'CONFIRMADO'){
+                                status = 'Confirmado';
+                            }
+                            if(history[h].status == 'CANCELADO'){
+                                status = 'Cancelado';
+                            }
+                        }
+
                         this.viewModel.packages.push({
                             order: model.packages[p].order,
+                            status: status,
                             client: {
                                 name: model.packages[p].client.name,
                                 phone: model.packages[p].client.phone

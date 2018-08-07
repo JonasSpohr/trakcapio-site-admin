@@ -36,10 +36,13 @@
                                         <td>{{ item.packages.length }}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm" (click)="view(item._id)" type="button">
-                                                Visualizar
+                                                <i class="zmdi zmdi-eye"></i>
                                             </button>
                                             <button class="btn btn-danger btn-sm" (click)="delete(item._id)" type="button">
-                                                Excluir
+                                                <i class="zmdi zmdi-delete"></i>
+                                            </button>
+                                            <button class="btn btn-default btn-sm" type="button">
+                                                    <i class="zmdi zmdi-print"></i>
                                             </button>
                                         </td>
                                     </tr>
