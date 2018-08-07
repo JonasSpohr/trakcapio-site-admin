@@ -12,6 +12,7 @@ import { confirm } from 'dropzone';
 
 export class RouteDetailComponent implements OnInit {
 
+    user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
     public loading = false;
     editing: boolean = false;
     router: Router;
@@ -122,7 +123,7 @@ export class RouteDetailComponent implements OnInit {
 
     loadEmployeeList(): void {
         this.loading = true;
-        this.service.getListEmployees('5b48be0402eebd0014cef631')
+        this.service.getListEmployees(this.user.companyId)
             .subscribe(
             (response: any) => {
                 if (response.success) {
@@ -277,8 +278,8 @@ export class RouteDetailComponent implements OnInit {
             socialNumber: employeeSocialNumber
         }
         this.viewModel.processSendSMS = processSendSMS;
-        this.viewModel.companyId = '5b48be0402eebd0014cef631';
-        this.viewModel.userId = '5b2564b43ca749254842f5f8';
+        this.viewModel.companyId = this.user.companyId;
+        this.viewModel.userId = this.user._id;
         this.viewModel.urlNotificaton = 'https://trackapio.herokuapp.com/api/statusnotification/'
 
         this.loading = true;
@@ -307,7 +308,7 @@ export class RouteDetailComponent implements OnInit {
     process() {
         confirm('Atenção: Você confirma que deseja notificar os clientes sobre a data prevista para a entrega?', () => {
             this.loading = true;
-            this.service.process(this.viewModel._id, '5b48be0402eebd0014cef631')
+            this.service.process(this.viewModel._id, this.user.companyId)
                 .subscribe(
                 (response: any) => {
                     if (response.success) {

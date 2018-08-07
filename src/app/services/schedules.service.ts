@@ -6,12 +6,11 @@ import 'rxjs/add/operator/map'
 
 @Injectable()
 export class SchedulesService {
-  user: any = {};
+  user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
   headers = new Headers();
   _url: string = '';
 
   constructor(private http: Http) {
-    this.user = JSON.parse(localStorage.getItem("currentUser"));
 
     this.headers.append('Content-Type', 'application/json');
     if (this.user) {
@@ -107,7 +106,7 @@ export class SchedulesService {
       }
     );
 
-    model.companyId = '5b48be0402eebd0014cef631';
+    model.companyId = this.user.companyId;
 
     return this.http.put(this._url + 'schedules', model, options)
       .map((response: Response) => {

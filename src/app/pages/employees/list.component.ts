@@ -10,7 +10,7 @@ import { confirm } from 'dropzone';
 })
 
 export class EmployeeListComponent implements OnInit {
-
+    user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
     router: Router;
     public loading = false;
     service: EmployeeService;
@@ -51,7 +51,7 @@ export class EmployeeListComponent implements OnInit {
 
     loadData(): void {
         this.loading = true;
-        this.service.getList('5b48be0402eebd0014cef631')
+        this.service.getList(this.user.companyId)
             .subscribe(
             (response: any) => {
                 if (response.success) {

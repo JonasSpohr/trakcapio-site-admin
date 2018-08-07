@@ -6,12 +6,11 @@ import 'rxjs/add/operator/map'
 
 @Injectable()
 export class EmployeeService {
-  user: any = {};
+  user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
   headers = new Headers();
   _url: string = '';
 
   constructor(private http: Http) {
-    this.user = JSON.parse(localStorage.getItem("currentUser"));
 
     this.headers.append('Content-Type', 'application/json');
     if (this.user) {
@@ -92,7 +91,7 @@ export class EmployeeService {
       }
     );
 
-    model.companyId = '5b48be0402eebd0014cef631';
+    model.companyId = this.user.companyId;
 
     return this.http.put(this._url + 'employees', model, options)
       .map((response: Response) => {
@@ -111,7 +110,7 @@ export class EmployeeService {
       }
     );
 
-    model.companyId = '5b48be0402eebd0014cef631';
+    model.companyId = this.user.companyId;
 
     return this.http.post(this._url + 'employees', model, options)
       .map((response: Response) => {
