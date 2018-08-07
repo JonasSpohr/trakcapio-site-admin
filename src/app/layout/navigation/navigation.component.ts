@@ -1,5 +1,6 @@
 import { Component, OnInit, trigger, state, style, transition, animate} from '@angular/core';
 import { SharedService } from "../../shared/services/shared.service";
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-navigation',
@@ -34,18 +35,29 @@ export class NavigationComponent implements OnInit {
         Charts: 'inactive',
     };
 
+    user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
+    router: Router;
+
     // Toggle sub menu
     toggleNavigationSub(menu, event) {
         event.preventDefault();
         this.navigationSubState[menu] = (this.navigationSubState[menu] === 'inactive' ? 'active' : 'inactive');
     }
 
-    constructor(private sharedService: SharedService) {
+    constructor(private sharedService: SharedService, r: Router) {
         sharedService.sidebarVisibilitySubject.subscribe((value) => {
             this.sidebarVisible = value
         })
+        this.router = r;
     }
 
     ngOnInit() {
+    }
+
+    logoff() : void {
+        if(confirm('Você realmente deseja sair do sistema?')) {
+            localStorage.removeItem('traclapioUser');
+            this.router.navigate(['login']);
+        }
     }
 }

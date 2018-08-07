@@ -8,13 +8,14 @@ import { AppComponent } from './app.component';
 import { SharedService } from "./shared/services/shared.service";
 import { routing } from './app.routing';
 import { LoadingModule } from 'ngx-loading';
+import { AuthGuard } from './services/auth.guard'
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpModule,
     BrowserAnimationsModule,
-    routing,    
+    routing,
     LoadingModule
   ],
   declarations: [
@@ -25,11 +26,12 @@ import { LoadingModule } from 'ngx-loading';
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
-    }
+    },
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
 
-export class AppModule { 
-  
+export class AppModule {
+
 }
