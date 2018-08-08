@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { SharedModule } from "../../shared/shared.module";
-
+import { LoadingModule } from 'ngx-loading';
 import { HomeComponent } from "./home.component";
 
 const HOME_ROUTE = [
@@ -18,7 +18,8 @@ const HOME_ROUTE = [
         CommonModule,
         SharedModule,
         BsDropdownModule.forRoot(),
-        RouterModule.forChild(HOME_ROUTE)
+        RouterModule.forChild(HOME_ROUTE),
+        LoadingModule
     ]
 })
 

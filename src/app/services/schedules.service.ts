@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map'
 
 @Injectable()
 export class SchedulesService {
-  user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
+  user: any = JSON.parse(localStorage.getItem('traclapioUser'));
   headers = new Headers();
   _url: string = '';
 
@@ -37,6 +37,21 @@ export class SchedulesService {
 
     return this.http
       .get(this._url + "schedules/all/" + companyId, options)
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
+  getTodayList(): Observable<any[]> {
+    const options = new RequestOptions(
+      {
+        headers: this.headers
+      }
+    );
+
+    return this.http
+      .get(this._url + `schedules/all/${this.user.companyId}/today`, options)
       .map((response: Response) => {
         return response.json();
       })
