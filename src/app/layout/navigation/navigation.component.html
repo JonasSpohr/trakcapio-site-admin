@@ -5,13 +5,12 @@
             <div class="user__info" dropdownToggle>
                 <img class="user__img" src="./assets/ic-user.png" alt="">
                 <div>
-                    <div class="user__name">User Logged</div>
-                    <div class="user__email">Email User Logged</div>
+                    <div class="user__name">{{user.name}}</div>
                 </div>
             </div>
 
             <div *dropdownMenu class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="">Sair</a>
+                <a class="dropdown-item" href="#" (click)="logoff()">Sair</a>
             </div>
         </div>
 

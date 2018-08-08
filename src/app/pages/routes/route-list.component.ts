@@ -19,6 +19,7 @@ export class RouteListComponent implements OnInit {
     p: number = 1;
     service: SchedulesService;
     items: any[] = [];
+    user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
 
     constructor(r: Router, schedulesService: SchedulesService) {
         this.service = schedulesService;
@@ -31,7 +32,7 @@ export class RouteListComponent implements OnInit {
 
     loadData(): void {
         this.loading = true;
-        this.service.getList('5b48be0402eebd0014cef631')
+        this.service.getList(this.user.companyId)
             .subscribe(
             (response: any) => {
                 if (response.success) {
