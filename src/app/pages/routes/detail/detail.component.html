@@ -25,11 +25,25 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Data entrega (previsão)*</label>
-                                <input *ngIf="editing == false" [disabled]="viewModel.packages.length > 0 || editing" [textMask]="{mask: maskDate}" class="form-control" placeholder="ex: 23/02/2017"
+                                <!--<input *ngIf="editing == false" [disabled]="viewModel.packages.length > 0 || editing" [textMask]="{mask: maskDate}" class="form-control" placeholder="ex: 23/02/2017"
                                     [(ngModel)]="viewModel.dateSchedule" type="text">
+                                    -->
                                     <input *ngIf="editing == true" [disabled]="viewModel.packages.length > 0 || editing" class="form-control" placeholder="ex: 23/02/2017"
-                                    [(ngModel)]="viewModel.dateSchedule" type="text">
+                                    value="{{viewModel.dateSchedule | dateFormatPipe}}" type="text">
                                 <i class="form-group__bar"></i>
+                                <div class="input-group" *ngIf="editing == false">
+                                    <input  class="form-control" style="float:none" placeholder="Selecione a data" ngx-mydatepicker name="mydate" [(ngModel)]="viewModel.dateSchedule"
+                                       (focus)="dp.toggleCalendar()" [options]="datePicketOptions" #dp="ngx-mydatepicker" (dateChanged)="onDateChanged($event)" />
+
+                                    <span class="input-group-btn">
+                                        <button type="button" [disabled]="viewModel.packages.length > 0 || editing" class="btn btn-default" (click)="dp.clearDate()">
+                                            <i class="zmdi zmdi-delete"></i>
+                                        </button>
+                                        <button type="button" [disabled]="viewModel.packages.length > 0 || editing" class="btn btn-default" (click)="dp.toggleCalendar()">
+                                            <i class="zmdi zmdi-calendar-alt"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -74,15 +88,14 @@
                                         <td>{{ item.client.phone }}</td>
                                         <td>{{ item.status }}</td>
                                         <td *ngIf="!editing">
-                                            <button  [disabled]="viewModel.packages.length == 1 || i == 0" class="btn btn-default btn-sm" type="button"
-                                                (click)="changeOrder(i, i - 1, true)">
+                                            <button [disabled]="viewModel.packages.length == 1 || i == 0" class="btn btn-default btn-sm" type="button" (click)="changeOrder(i, i - 1, true)">
                                                 <i class="zmdi zmdi-chevron-up"></i>
                                             </button>
                                             <button [disabled]="viewModel.packages.length == 1 || i == (viewModel.packages.length - 1)" class="btn btn-default btn-sm"
                                                 type="button" (click)="changeOrder(i, i + 1, false)">
                                                 <i class="zmdi zmdi-chevron-down"></i>
                                             </button>
-                                            <button  class="btn btn-danger btn-sm" type="button">
+                                            <button class="btn btn-danger btn-sm" type="button">
                                                 Excluir
                                             </button>
                                         </td>
@@ -100,7 +113,7 @@
                         <div class="col-md-12">
                             <button *ngIf="editing == false" class="btn btn-primary" (click)="save()" [disabled]="viewModel.packages.length == 0">Salvar</button>
                             <button *ngIf="editing == false" class="btn btn-success" (click)="saveAndProcess()" [disabled]="viewModel.packages.length == 0">Salvar e Processar</button>
-                            <button *ngIf="editing && viewModel.processed == false" class="btn btn-success" (click)="process()" >Processar</button>
+                            <button *ngIf="editing && viewModel.processed == false" class="btn btn-success" (click)="process()">Processar</button>
                             <button class="btn btn-default" (click)="cancel()">Cancelar</button>
                         </div>
                     </div>

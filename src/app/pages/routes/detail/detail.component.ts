@@ -3,6 +3,8 @@ import { SchedulesService } from '../../../services/schedules.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Select2OptionData } from 'ng2-select2';
 import { confirm } from 'dropzone';
+import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
+import { dateFormatPipe } from '../../../pipes/date-pipe'
 
 @Component({
     selector: 'route-detail',
@@ -12,7 +14,7 @@ import { confirm } from 'dropzone';
 
 export class RouteDetailComponent implements OnInit {
 
-    user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
+    user: any = JSON.parse(localStorage.getItem('traclapioUser'));
     public loading = false;
     editing: boolean = false;
     router: Router;
@@ -34,6 +36,18 @@ export class RouteDetailComponent implements OnInit {
         width: '100%',
         containerCssClass: 'select2-selection--alt',
         dropdownCssClass: 'select2-dropdown--alt'
+    };
+
+    today: Date = new Date();
+    selectedDate : any;
+
+    datePicketOptions: INgxMyDpOptions = {
+        dateFormat: 'dd/mm/yyyy',
+        todayBtnTxt: 'Hoje',
+        monthLabels: { 1: 'Jan', 2: 'Fev', 3: 'Mar', 4: 'Abr', 5: 'Mai', 6: 'Jun', 7: 'Jul', 8: 'Ago', 9: 'Set', 10: 'Out', 11: 'Nov', 12: 'Dez' },
+        dayLabels: { su: 'Dom', mo: 'Seg', tu: 'Ter', we: 'Qua', th: 'Qui', fr: 'Sex', sa: 'Sab' },
+        disableUntil: { year: this.today.getFullYear(), month: this.today.getMonth() + 1, day: this.today.getDate() - 1 },
+        closeSelectorOnDateSelect: false        
     };
 
     maskDate: any = [/[0-9]/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
@@ -67,6 +81,10 @@ export class RouteDetailComponent implements OnInit {
         });
     }
 
+    onDateChanged(event: IMyDateModel): void {
+        this.selectedDate = event.jsdate;
+    }
+
     loadDetail(): void {
         if (this.viewModel._id == "0") {
             return;
@@ -80,19 +98,19 @@ export class RouteDetailComponent implements OnInit {
                     let model = response.result;
                     this.editing = true;
                     this.viewModel.employee = model.employee[0].socialNumber;
-                    this.viewModel.dateSchedule = new Date(model.dateSchedule).toLocaleDateString();
+                    this.viewModel.dateSchedule = new Date(model.dateSchedule);
                     this.viewModel.packages = [];
 
                     for (let p = 0; p < model.packages.length; p++) {
-                        let status : string  = 'Pendente de Resposta';
+                        let status: string = 'Pendente de Resposta';
 
                         let history = model.packages[p].statusHistory;
 
-                        for(let h = 0; h < history.length; h++){
-                            if(history[h].status == 'CONFIRMADO'){
+                        for (let h = 0; h < history.length; h++) {
+                            if (history[h].status == 'CONFIRMADO') {
                                 status = 'Confirmado';
                             }
-                            if(history[h].status == 'CANCELADO'){
+                            if (history[h].status == 'CANCELADO') {
                                 status = 'Cancelado';
                             }
                         }
@@ -216,7 +234,7 @@ export class RouteDetailComponent implements OnInit {
             },
             address: this.package.address,
             name: this.package.content,
-            estimatedDate: this.viewModel.dateSchedule,
+            estimatedDate: this.selectedDate,
             order: this.lastOrder,
         };
 
@@ -283,6 +301,7 @@ export class RouteDetailComponent implements OnInit {
         this.viewModel.urlNotificaton = 'https://trackapio.herokuapp.com/api/statusnotification/'
 
         this.loading = true;
+        this.viewModel.dateSchedule = this.selectedDate;
         this.service.insert(this.viewModel)
             .subscribe(
             (response: any) => {

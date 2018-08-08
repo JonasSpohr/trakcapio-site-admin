@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SchedulesService } from '../../services/schedules.service';
 import { Router } from '@angular/router';
 import { confirm } from 'dropzone';
+import { dateFormatPipe } from '../../pipes/date-pipe'
 
 @Component({
     selector: 'route-list',
@@ -19,7 +20,7 @@ export class RouteListComponent implements OnInit {
     p: number = 1;
     service: SchedulesService;
     items: any[] = [];
-    user : any  = JSON.parse(localStorage.getItem('traclapioUser'));
+    user: any = JSON.parse(localStorage.getItem('traclapioUser'));
 
     constructor(r: Router, schedulesService: SchedulesService) {
         this.service = schedulesService;
@@ -55,23 +56,23 @@ export class RouteListComponent implements OnInit {
 
     delete(id: any): void {
         confirm('Atenção essa operação não pode ser revertida! Você confirma a exclusão da rota?', () => {
-           this.loading = true;
-           this.service.delete(id)
-           .subscribe(
-           (response: any) => {
-               if (response.success) {
-                   this.loadData();
-                   alert('Operação efetuada com sucesso.');
-               } else {
-                   alert(response.errorMessage);
-               }
+            this.loading = true;
+            this.service.delete(id)
+                .subscribe(
+                (response: any) => {
+                    if (response.success) {
+                        this.loadData();
+                        alert('Operação efetuada com sucesso.');
+                    } else {
+                        alert(response.errorMessage);
+                    }
 
-               this.loading = false;
-           },
-           error => {
-               console.log("Error :: " + error);
-               this.loading = false;
-           });
-        });        
+                    this.loading = false;
+                },
+                error => {
+                    console.log("Error :: " + error);
+                    this.loading = false;
+                });
+        });
     }
 }

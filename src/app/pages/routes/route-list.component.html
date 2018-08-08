@@ -30,7 +30,7 @@
                                         </td>
                                     </tr>
                                     <tr *ngFor="let item of items | paginate: { itemsPerPage: 10, currentPage: p } ">
-                                        <th scope="row">{{ item.dateSchedule | date : 'dd/MM/yyyy' }}</th>
+                                        <th scope="row">{{ item.dateSchedule | dateFormatPipe }}</th>
                                         <td>{{ item.employee[0].name }}</td>
                                         <td>{{ item.employee[0].phone }}</td>
                                         <td>{{ item.packages.length }}</td>
