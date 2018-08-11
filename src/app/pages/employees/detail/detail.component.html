@@ -20,7 +20,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Telefone Celular*</label>
-                                <input class="form-control" placeholder="Telefone celular" [(ngModel)]="viewModel.phone" type="text">
+                                <input [textMask]="{mask: maskPhoneOdd}" class="form-control" placeholder="Telefone celular" [(ngModel)]="viewModel.phone" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
@@ -36,14 +36,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>CPF*</label>
-                                <input class="form-control" placeholder="CPF" [(ngModel)]="viewModel.socialNumber" type="text">
+                                <input [textMask]="{mask: maskCPF}" class="form-control" placeholder="CPF" [(ngModel)]="viewModel.socialNumber" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nº da CNH</label>
-                                <input class="form-control" placeholder="Nº da CNH" [(ngModel)]="viewModel.driverLicenseNumber" type="text">
+                                <input [textMask]="{mask: maskNumber}" class="form-control" placeholder="Nº da CNH" [(ngModel)]="viewModel.driverLicenseNumber" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>CEP*</label>
-                                <input class="form-control" (blur)="checkCep()" placeholder="CEP" [(ngModel)]="viewModel.address.zipCode" type="text">
+                                <input [textMask]="{mask: maskCEP}" class="form-control" (blur)="checkCep()" placeholder="CEP" [(ngModel)]="viewModel.address.zipCode" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nº*</label>
-                                <input class="form-control" placeholder="Nº" [(ngModel)]="viewModel.address.number" type="text">
+                                <input [textMask]="{mask: maskNumber}" class="form-control" placeholder="Nº" [(ngModel)]="viewModel.address.number" type="text">
                                 <i class="form-group__bar"></i>
                             </div>
                         </div>

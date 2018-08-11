@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Select2OptionData } from 'ng2-select2';
 import { confirm } from 'dropzone';
 import { INgxMyDpOptions, IMyDateModel } from 'ngx-mydatepicker';
-import { dateFormatPipe } from '../../../pipes/date-pipe'
 
 @Component({
     selector: 'route-detail',

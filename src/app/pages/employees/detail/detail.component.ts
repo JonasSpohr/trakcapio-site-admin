@@ -18,6 +18,20 @@ export class EmployeeDetailComponent implements OnInit {
         address: {}
     };
 
+    maskDate: any = [/[0-9]/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/];
+    maskTime: any = [/[1-9]/, /\d/, ':', /\d/, /\d/, ':', /\d/, /\d/];
+    maskNumber: any = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
+    maskDateTime: any = [/[1-9]/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, ':', /\d/, /\d/, ':', /\d/, /\d/];
+    maskCEP: any = [/[0-9]/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+    maskCPF: any = [/[0-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
+    maskCreditCard: any = [/[1-9]/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, ' '];
+    maskPhone: any = [/[1-9]/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/];
+    maskPhoneOdd: any = [/[1-9]/, /\d/, ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, /\d/];
+    maskPhoneUS: any = ['(', /[0-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+    maskMoney: any = ['$', /[1-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, ',', /\d/, /\d/];
+    maskIP: any = [/[1-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/];
+    maskPercentage: any = [/[1-9]/, /\d/, '.', /\d/, /\d/, '%'];
+
     constructor(rr : Router, r: ActivatedRoute, employeeService: EmployeeService) {
         this.service = employeeService;
         this.route = r;
@@ -141,7 +155,8 @@ export class EmployeeDetailComponent implements OnInit {
         }
 
         this.loading = true;
-        if (!this.viewModel._id || this.viewModel._id == 0) {
+        if (!this.viewModel._id || this.viewModel._id == "0") {
+            delete this.viewModel._id;
             this.service.insert(this.viewModel)
                 .subscribe(
                 (response: any) => {

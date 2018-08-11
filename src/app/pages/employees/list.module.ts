@@ -8,6 +8,7 @@ import { EmployeeListComponent } from "./list.component";
 import { EmployeeDetailComponent } from "./detail/detail.component";
 import { EmployeeService } from "../../services/employee.service";
 import { LoadingModule } from 'ngx-loading';
+import { TextMaskModule } from 'angular2-text-mask';
 
 const HOME_ROUTE = [
     { path: '', component: EmployeeListComponent },
@@ -25,7 +26,8 @@ const HOME_ROUTE = [
         BsDropdownModule.forRoot(),
         RouterModule.forChild(HOME_ROUTE),
         FormsModule,
-        LoadingModule
+        LoadingModule,
+        TextMaskModule
     ],
     providers: [EmployeeService]
 })
