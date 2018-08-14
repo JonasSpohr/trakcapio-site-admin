@@ -6,6 +6,13 @@
                     <h4 class="card-title">Rotas em andamento - Hoje</h4>
                     <div class="row mt-4">
                         <div class="col-md-12">
+                            <button class="btn btn-primary btn-md" type="button" (click)="refresh()">
+                                <i class="zmdi zmdi-refresh"></i> Atualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
                             <table class="table table-hover mb-0">
                                 <thead>
                                     <tr>
@@ -26,10 +33,10 @@
                                         <td>{{ item.employee[0].phone }}</td>
                                         <td>{{ item.packages.length }}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm" (click)="view(item._id)" type="button">
+                                            <button class="btn btn-primary btn-md" (click)="view(item._id)" type="button">
                                                 <i class="zmdi zmdi-eye"></i>
                                             </button>
-                                            <button class="btn btn-default btn-sm" type="button">
+                                            <button class="btn btn-default btn-md" type="button">
                                                 <i class="zmdi zmdi-print"></i>
                                             </button>
                                         </td>
@@ -46,10 +53,126 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Status das mensagens enviadas - Hoje (24/07/2018)</h4>
+                    <h4 class="card-title">Mensagens enviadas pendentes de resposta - Hoje</h4>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary btn-md" type="button" (click)="refresh()">
+                                <i class="zmdi zmdi-refresh"></i> Atualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Motorista Responsável</th>
+                                        <th>Cliente</th>
+                                        <th>Celular</th>
+                                        <th>Endereço</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" *ngIf="todayStatusItems.length == 0" style="text-align:center">
+                                            <label>Nenhum pacote pendente de resposta para hoje :)</label>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let item of todayStatusItems">
+                                        <td scope="row">{{ item.employeeName }}</td>
+                                        <td>{{ item.clientName }}</td>
+                                        <td>{{ item.clientPhone }}</td>
+                                        <td>{{ item.clientAddress }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Mensagens enviadas canceladas pelo cliente - Hoje</h4>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary btn-md" type="button" (click)="refresh()">
+                                <i class="zmdi zmdi-refresh"></i> Atualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Motorista Responsável</th>
+                                        <th>Cliente</th>
+                                        <th>Celular</th>
+                                        <th>Endereço</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="4" *ngIf="todayStatusCanceledItems.length == 0" style="text-align:center">
+                                            <label>Nenhum pacote cancelado para hoje :)</label>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let item of todayStatusCanceledItems">
+                                        <td scope="row">{{ item.employeeName }}</td>
+                                        <td>{{ item.clientName }}</td>
+                                        <td>{{ item.clientPhone }}</td>
+                                        <td>{{ item.clientAddress }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Mensagens enviadas confirmadas pelo cliente - Hoje</h4>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary btn-md" type="button" (click)="refresh()">
+                                    <i class="zmdi zmdi-refresh"></i> Atualizar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Motorista Responsável</th>
+                                            <th>Cliente</th>
+                                            <th>Celular</th>
+                                            <th>Endereço</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4" *ngIf="todayStatusConfirmedItems.length == 0" style="text-align:center">
+                                                <label>Nenhum pacote confirmado para hoje :|</label>
+                                            </td>
+                                        </tr>
+                                        <tr *ngFor="let item of todayStatusConfirmedItems">
+                                            <td scope="row">{{ item.employeeName }}</td>
+                                            <td>{{ item.clientName }}</td>
+                                            <td>{{ item.clientPhone }}</td>
+                                            <td>{{ item.clientAddress }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </div>
     <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop : true }"></ngx-loading>
 </section>

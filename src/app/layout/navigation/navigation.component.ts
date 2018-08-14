@@ -24,6 +24,8 @@ import { Router } from '@angular/router';
 
 export class NavigationComponent implements OnInit {
     sidebarVisible: boolean;
+    isDriver : boolean = false;
+    isAdministrator : boolean = false;
 
     // Sub menu visibilities
     navigationSubState:any = {
@@ -52,6 +54,8 @@ export class NavigationComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.isDriver = this.user.type == 'Motorista';
+        this.isAdministrator = this.user.type == 'isAdministrator';
     }
 
     logoff() : void {

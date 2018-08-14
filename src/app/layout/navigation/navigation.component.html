@@ -16,14 +16,14 @@
 
         <ul class="navigation">
             <li routerLinkActive="navigation__active"><a [routerLink]="['/home']"><i class="zmdi zmdi-home"></i> Home</a></li>
-            <li routerLinkActive="navigation__sub--active" class="navigation__sub">
+            <li *ngIf="isAdministrator" routerLinkActive="navigation__sub--active" class="navigation__sub">
                 <a (click)="toggleNavigationSub('Tables', $event)"><i class="zmdi zmdi-settings"></i> Administração</a>
 
                 <ul [@toggleHeight]="navigationSubState.Tables">
                     <li routerLinkActive="navigation__active"><a [routerLink]="['/employees']">Funcionários</a></li>
                 </ul>
             </li>
-            <li routerLinkActive="navigation__active"><a [routerLink]="['/routes']"><i class="zmdi zmdi zmdi-truck"></i> Rotas</a></li>
+            <li *ngIf="isAdministrator" routerLinkActive="navigation__active"><a [routerLink]="['/routes']"><i class="zmdi zmdi zmdi-truck"></i> Rotas</a></li>
         </ul>
     </perfect-scrollbar>
 </aside>
