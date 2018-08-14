@@ -55,7 +55,7 @@ export class NavigationComponent implements OnInit {
 
     ngOnInit() {
         this.isDriver = this.user.type == 'Motorista';
-        this.isAdministrator = this.user.type == 'isAdministrator';
+        this.isAdministrator = this.user.type == 'Administrator';
     }
 
     logoff() : void {

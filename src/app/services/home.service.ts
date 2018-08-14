@@ -43,6 +43,21 @@ export class HomeService {
       .catch(this.handleError);
   }  
 
+  getEmployeeTodayList(): Observable<any[]> {
+    const options = new RequestOptions(
+      {
+        headers: this.headers
+      }
+    );
+
+    return this.http
+      .get(this._url + `schedules/employee/${this.user.employeeId}/today`, options)
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(this.handleError);
+  }
+
   private handleErrorMessage(error: String) {
     return Observable.throw(error);
   }

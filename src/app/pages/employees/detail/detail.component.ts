@@ -41,7 +41,7 @@ export class EmployeeDetailComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.isAdministrator = this.user.type == 'Administrador';
+        this.isAdministrator = this.user.type == 'Administrator';
         this.route.params.subscribe(params => {
             if (params['id']) {
                 this.viewModel._id = params['id'];
