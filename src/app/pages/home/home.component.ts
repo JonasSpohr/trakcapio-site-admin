@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HomeService } from '../../services/home.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -12,9 +13,11 @@ export class HomeComponent implements OnInit {
     public loading: boolean = false;
     service: HomeService;
     todayItems: any = [];
+    router : Router;
 
-    constructor(service: HomeService) {
+    constructor(r: Router,service: HomeService) {
         this.service = service;
+        this.router = r;
     }
 
     ngOnInit() {
@@ -25,19 +28,23 @@ export class HomeComponent implements OnInit {
         this.loading = true;
         this.service.getTodayList()
             .subscribe(
-                (response: any) => {
-                    if (response.success) {
-                        this.todayItems = response.result;
-                    } else {
-                        alert(response.errorMessage);
-                    }
+            (response: any) => {
+                if (response.success) {
+                    this.todayItems = response.result;
+                } else {
+                    alert(response.errorMessage);
+                }
 
-                    this.loading = false;
-                },
-                error => {
-                    console.log("Error :: " + error);
-                    this.loading = false;
-                });
+                this.loading = false;
+            },
+            error => {
+                console.log("Error :: " + error);
+                this.loading = false;
+            });
+    }
+
+    view(id: string): void {
+        this.router.navigate(['/routes/detail/' + id]);
     }
 
 }
