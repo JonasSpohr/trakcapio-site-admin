@@ -1,0 +1,60 @@
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Detalhes da Entrega</h4>
+                    <div class="row m-t-4">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Cliente</label>
+                                <input class="form-control" [disabled]="true" [(ngModel)]="package.clientName" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Telefone</label>
+                                <input class="form-control" [disabled]="true" [(ngModel)]="package.clientPhone" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <input class="form-control" [disabled]="true" [(ngModel)]="package.status" type="text">
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Endereço Completo</label>
+                                <textarea rows="3" [(ngModel)]="package.clientAddress" [disabled]="true" class="form-control"></textarea>
+                                <i class="form-group__bar"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button *ngIf="deliveryStatus == 'PENDING'" class="btn btn-primary btn-md" type="button" (click)="beginRoute()">
+                                Iniciar Rota de Entrega
+                            </button>
+                            <button *ngIf="deliveryStatus != 'PENDING'" class="btn btn-success btn-md" type="button" (click)="refresh()">
+                                Entregue
+                            </button>
+                            <button *ngIf="deliveryStatus != 'PENDING'" class="btn btn-danger btn-md" type="button" (click)="refresh()">
+                                Não Entregue
+                            </button>
+                            <button class="btn btn-default btn-md" type="button" (click)="back()">
+                               Voltar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop : true }"></ngx-loading>
+</section>

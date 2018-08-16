@@ -138,6 +138,7 @@ export class HomeComponent implements OnInit {
                                 itemReturn.status = 'Não respondeu'
                             }
 
+                            itemReturn.id = pkg._id;
                             itemReturn.order = pkg.order;
                             itemReturn.clientName = pkg.client.name;
                             itemReturn.clientPhone = pkg.client.phone.replace('+55', '');
@@ -162,8 +163,8 @@ export class HomeComponent implements OnInit {
             });
     }
 
-    view(id: string): void {
-        this.route.navigate(['/routes/detail/' + id]);
+    view(id: any): void {
+        this.route.navigate(['/home/detail/' + id]);
     }
 
 }
