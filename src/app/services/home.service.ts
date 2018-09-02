@@ -73,6 +73,63 @@ export class HomeService {
       .catch(this.handleError);
   }
 
+  postBeginRoute(id : any): Observable<any> {
+    const options = new RequestOptions(
+      {
+        headers: this.headers
+      }
+    );
+
+    return this.http.post(this._url + 'smsnotification/beginroute', {
+      packageId : id
+    }, options)
+      .map((response: Response) => {
+        if (response.json().success == false)
+          this.handleErrorMessage(response.json().errorMessage);
+
+        return response.json()
+      })
+      .catch(this.handleError);
+  }
+
+  postDeliveredSuccessfully(id : any): Observable<any> {
+    const options = new RequestOptions(
+      {
+        headers: this.headers
+      }
+    );
+
+    return this.http.post(this._url + 'smsnotification/delivered', {
+      packageId : id
+    }, options)
+      .map((response: Response) => {
+        if (response.json().success == false)
+          this.handleErrorMessage(response.json().errorMessage);
+
+        return response.json()
+      })
+      .catch(this.handleError);
+  }
+
+  postDeliveredFailed(id : any): Observable<any> {
+    const options = new RequestOptions(
+      {
+        headers: this.headers
+      }
+    );
+
+    return this.http.post(this._url + 'smsnotification/faildelivered', {
+      packageId : id
+    }, options)
+      .map((response: Response) => {
+        if (response.json().success == false)
+          this.handleErrorMessage(response.json().errorMessage);
+
+        return response.json()
+      })
+      .catch(this.handleError);
+  }
+
   private handleErrorMessage(error: String) {
     return Observable.throw(error);
   }

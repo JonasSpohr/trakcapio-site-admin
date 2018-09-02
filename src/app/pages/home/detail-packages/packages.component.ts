@@ -17,6 +17,7 @@ export class PackagesComponent implements OnInit {
     route: Router;
     activatedRoute: ActivatedRoute;
     deliveryStatus: string = 'PENDING';
+    pkgId: any = 0;
 
     constructor(r: Router, activatedRoute: ActivatedRoute, service: HomeService) {
         this.service = service;
@@ -28,9 +29,14 @@ export class PackagesComponent implements OnInit {
         this.activatedRoute.params.subscribe(params => {
             if (params['id']) {
                 let id = params['id'];
+                this.pkgId = id;
                 this.loadDetailPackage(id);
             }
         });
+    }
+
+    cancel(): void {
+        this.route.navigate(['/home']);
     }
 
     loadDetailPackage(id: any): void {
@@ -73,7 +79,7 @@ export class PackagesComponent implements OnInit {
                         this.package.clientName = pkg.client.name;
                         this.package.clientPhone = pkg.client.phone.replace('+55', '');
 
-                        let address = pkg.client.address[0];
+                        let address = pkg.address;
                         let number = address.number;
                         while (number.lastIndexOf('_') != -1) {
                             number = number.replace('_', '');
@@ -94,8 +100,68 @@ export class PackagesComponent implements OnInit {
     }
 
     beginRoute(): void {
-        if(confirm('Ao iniciar a rota de entrega o cliente será informado que você está a caminho! Você confirma o início da rota de entrega?')){
+        if (confirm('Ao iniciar a rota de entrega o cliente será informado que você está a caminho! Você confirma o início da rota de entrega?')) {
+            this.loading = true;
+            this.service.postBeginRoute(this.pkgId)
+                .subscribe(
+                    (response: any) => {
+                        if (response.success) {
+                            alert('Cliente informado com sucesso.')
+                            this.deliveryStatus = 'STARTED';
+                        } else {
+                            alert(response.errorMessage);
+                        }
 
+                        this.loading = false;
+                    },
+                    error => {
+                        console.log("Error :: " + error);
+                        this.loading = false;
+                    });
+        }
+    }
+
+    delivered(): void {
+        if (confirm('Você confirma a entrega do pacote?')) {
+            this.loading = true;
+            this.service.postDeliveredSuccessfully(this.pkgId)
+                .subscribe(
+                    (response: any) => {
+                        if (response.success) {
+                            alert('Cliente informado da entrega realizada.')
+                            this.deliveryStatus = 'DONE';
+                        } else {
+                            alert(response.errorMessage);
+                        }
+
+                        this.loading = false;
+                    },
+                    error => {
+                        console.log("Error :: " + error);
+                        this.loading = false;
+                    });
+        }
+    }
+
+    failed(): void {
+        if (confirm('Você confirma que não foi possível realizar a entrega do pacote?')) {
+            this.loading = true;
+            this.service.postDeliveredSuccessfully(this.pkgId)
+                .subscribe(
+                    (response: any) => {
+                        if (response.success) {
+                            alert('Cliente informado da entrega não realizada.')
+                            this.deliveryStatus = 'DONE';
+                        } else {
+                            alert(response.errorMessage);
+                        }
+
+                        this.loading = false;
+                    },
+                    error => {
+                        console.log("Error :: " + error);
+                        this.loading = false;
+                    });
         }
     }
 

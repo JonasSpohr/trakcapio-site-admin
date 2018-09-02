@@ -41,13 +41,13 @@
                             <button *ngIf="deliveryStatus == 'PENDING'" class="btn btn-primary btn-md" type="button" (click)="beginRoute()">
                                 Iniciar Rota de Entrega
                             </button>
-                            <button *ngIf="deliveryStatus != 'PENDING'" class="btn btn-success btn-md" type="button" (click)="refresh()">
+                            <button [disabled]="deliveryStatus == 'DELIVERED'" *ngIf="deliveryStatus != 'PENDING' && deliveryStatus != 'DONE' && deliveryStatus != 'FAILDELIVERED'" class="btn btn-success btn-md" type="button" (click)="delivered()">
                                 Entregue
                             </button>
-                            <button *ngIf="deliveryStatus != 'PENDING'" class="btn btn-danger btn-md" type="button" (click)="refresh()">
+                            <button [disabled]="deliveryStatus == 'FAILDELIVERED'" *ngIf="deliveryStatus != 'PENDING' && deliveryStatus != 'DONE' && deliveryStatus != 'DELIVERED'" class="btn btn-danger btn-md" type="button" (click)="failed()">
                                 Não Entregue
                             </button>
-                            <button class="btn btn-default btn-md" type="button" (click)="back()">
+                            <button class="btn btn-default btn-md" type="button" (click)="cancel()">
                                Voltar
                             </button>
                         </div>
