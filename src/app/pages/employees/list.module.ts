@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { SharedModule } from "../../shared/shared.module";
 import { FormsModule } from '@angular/forms';
 import { EmployeeListComponent } from "./list.component";
 import { EmployeeDetailComponent } from "./detail/detail.component";
@@ -22,7 +21,7 @@ const HOME_ROUTE = [
     ],
     imports: [
         CommonModule,
-        SharedModule,
+        //SharedModule,
         BsDropdownModule.forRoot(),
         RouterModule.forChild(HOME_ROUTE),
         FormsModule,
