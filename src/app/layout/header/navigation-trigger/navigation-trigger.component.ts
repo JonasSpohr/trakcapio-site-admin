@@ -7,7 +7,7 @@ import { SharedService } from "../../../shared/services/shared.service";
     styleUrls: ['./navigation-trigger.component.scss'],
 })
 export class NavigationTriggerComponent implements OnInit {
-    sidebarVisible: boolean;
+    public sidebarVisible: boolean;
 
     constructor(private sharedService: SharedService) {
         sharedService.sidebarVisibilitySubject.subscribe((value) => {
