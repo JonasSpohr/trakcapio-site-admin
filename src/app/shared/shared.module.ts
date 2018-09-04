@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
-import { EasyPieChartDirective } from "./directives/easy-pie-chart/easy-pie-chart.directive";
-import { JqvMapDirective } from "./directives/jqvmap/jqvmap.directive";
-import { FlotDirective } from "./directives/flot/flot.directive";
-import { SparklineDirective } from "./directives/sparklines/sparkline.directive";
-import { DropzoneDirective } from "./directives/dropzone/dropzone.directive";
-import { InputFloatDirective } from "./directives/input-float/input-float.directive";
+// import { EasyPieChartDirective } from "./directives/easy-pie-chart/easy-pie-chart.directive";
+// import { JqvMapDirective } from "./directives/jqvmap/jqvmap.directive";
+// import { FlotDirective } from "./directives/flot/flot.directive";
+// import { SparklineDirective } from "./directives/sparklines/sparkline.directive";
+// import { DropzoneDirective } from "./directives/dropzone/dropzone.directive";
+// import { InputFloatDirective } from "./directives/input-float/input-float.directive";
 
 //import { TodoListsComponent } from "./components/widgets/todo-lists/todo-lists.component";
 //import { PieChartsComponent } from "./components/widgets/pie-charts/pie-charts.component";
@@ -26,12 +26,12 @@ import { InputFloatDirective } from "./directives/input-float/input-float.direct
 @NgModule ({
   declarations: [
     // Directives
-    EasyPieChartDirective,
-    JqvMapDirective,
-    FlotDirective,
-    SparklineDirective,
-    DropzoneDirective,
-    InputFloatDirective,
+    // EasyPieChartDirective,
+    // JqvMapDirective,
+    // FlotDirective,
+    // SparklineDirective,
+    // DropzoneDirective,
+    // InputFloatDirective,
 
     // Components
     // PastDaysComponent,
@@ -54,12 +54,12 @@ import { InputFloatDirective } from "./directives/input-float/input-float.direct
   ],
   exports: [
     // Directives
-    EasyPieChartDirective,
-    JqvMapDirective,
-    FlotDirective,
-    SparklineDirective,
-    DropzoneDirective,
-    InputFloatDirective,
+    // EasyPieChartDirective,
+    // JqvMapDirective,
+    // FlotDirective,
+    // SparklineDirective,
+    // DropzoneDirective,
+    // InputFloatDirective,
 
     // Components
     // PastDaysComponent,
