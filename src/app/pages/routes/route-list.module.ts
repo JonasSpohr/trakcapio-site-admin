@@ -15,6 +15,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { TextMaskModule } from 'angular2-text-mask';
 import { dateFormatPipe } from '../../pipes/date-pipe'
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { FileUploadModule } from 'ng2-file-upload';
 
 const HOME_ROUTE = [
     { path: '', component: RouteListComponent },
@@ -38,7 +39,8 @@ const HOME_ROUTE = [
         FormsModule,
         Select2Module,
         TextMaskModule,
-        NgxMyDatePickerModule.forRoot()
+        NgxMyDatePickerModule.forRoot(),
+        FileUploadModule
     ]
 })
 

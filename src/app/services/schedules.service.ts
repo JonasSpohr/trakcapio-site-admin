@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map'
 export class SchedulesService {
   user: any = JSON.parse(localStorage.getItem('traclapioUser'));
   headers = new Headers();
+  headersUpload = new Headers();
   _url: string = '';
 
   constructor(private http: Http) {
@@ -18,6 +19,13 @@ export class SchedulesService {
       this.headers.append('auth_token', this.user.internalToken);
     }
     this.headers.append('Access-Control-Allow-Origin', '*');
+
+    this.headersUpload.append('Content-Type', 'application/x-www-form-urlencoded');
+    if (this.user) {
+      this.headersUpload.append('user_id', this.user.id);
+      this.headersUpload.append('auth_token', this.user.internalToken);
+    }
+    this.headersUpload.append('Access-Control-Allow-Origin', '*');
 
     if (environment.ENV == 'DEBUG') {
       this._url = environment.API_ENDPOINT_DEBUG;
@@ -161,6 +169,27 @@ export class SchedulesService {
       companyId: companyId,
       scheduleId: id
     }, options)
+      .map((response: Response) => {
+        if (response.json().success == false)
+          this.handleErrorMessage(response.json().errorMessage);
+
+        return response.json()
+      })
+      .catch(this.handleError);
+  }
+
+  pushFileToStorage(file: File, comapnyId : any): Observable<any> {
+    const options = new RequestOptions(
+      {
+        headers: this.headersUpload
+      }
+    );
+
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+    formdata.append('companyId', comapnyId);
+    
+    return this.http.post(this._url + 'schedules/import', formdata, options)
       .map((response: Response) => {
         if (response.json().success == false)
           this.handleErrorMessage(response.json().errorMessage);

@@ -9,9 +9,9 @@
                             <button class="btn btn-primary" [routerLink]="['detail/0']" type="button">
                                 Nova Rota
                             </button>
-                            <button class="btn btn-default" (click)="openUploadModal()" type="button">
+                            <!-- <button class="btn btn-default" (click)="modalImport.show()" type="button">
                                 Importar Rota (Arquivo Excel)
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                     <div class="row mt-4">
@@ -45,7 +45,7 @@
                                                 <i class="zmdi zmdi-delete"></i>
                                             </button>
                                             <button class="btn btn-default btn-sm" type="button">
-                                                    <i class="zmdi zmdi-print"></i>
+                                                <i class="zmdi zmdi-print"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -56,6 +56,55 @@
                     <pagination-controls (pageChange)="p = $event" directionLinks="true" autoHide="true" previousLabel="Anterior" nextLabel="Próxima"
                         screenReaderPaginationLabel="Paginação" screenReaderCurrentLabel="Página atual" class="overwrite-ul">
                     </pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div bsModal #modalImport="bs-modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title pull-left">Importação de Rota - Arquivo Excel</h5>
+                </div>
+                <div class="modal-body" style="min-width: 650px;">
+                    <div class="row">
+                        <div class="col-md-12" style="margin-bottom: 40px">
+                            Selecione o arquivo de importação<br>
+                            <input type="file" ng2FileSelect [uploader]="uploader" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="margin-bottom: 40px">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Arquivo</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of uploader.queue">
+                                        <td>
+                                            <strong>{{ item?.file?.name }}</strong>
+                                        </td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                                                <span class="glyphicon glyphicon-upload"></span> Salvar
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                                                <span class="glyphicon glyphicon-trash"></span> Cancelar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="pull-left btn btn-link" (click)="downloadTemplateRota()">Download aquivo exemplo</button>
+                        <button type="button" class="btn btn-default" (click)="modalImport.hide()">Fechar</button>
+                    </div>
                 </div>
             </div>
         </div>
