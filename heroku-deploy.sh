@@ -4,11 +4,11 @@
 git archive --format=tar.gz -o deploy.tgz $BITBUCKET_COMMIT
 
 HEROKU_VERSION=$BITBUCKET_COMMIT
-APP_NAME="trackapio-admin" # Your app's name in heroku goes here
+APP_NAME="trackapio-site" # Your app's name in heroku goes here
 
 echo "Deploying Heroku Version 3"
 
-URL_BLOB=`curl -s -n -X POST https://api.heroku.com/apps/trackapio-admin/sources \
+URL_BLOB=`curl -s -n -X POST https://api.heroku.com/apps/trackapio-site/sources \
 -H 'Accept: application/vnd.heroku+json; version=3' \
 -H "Authorization: Bearer 857b20a5-0fa8-491f-9458-9dc50369d57d"`
 
@@ -19,7 +19,7 @@ curl $PUT_URL  -X PUT -H 'Content-Type:' --data-binary @deploy.tgz
 
 REQ_DATA="{\"source_blob\": {\"url\":\"$GET_URL\", \"version\": \"2\"}}"
 
-BUILD_OUTPUT=`curl -s -n -X POST https://api.heroku.com/apps/trackapio-admin/builds \
+BUILD_OUTPUT=`curl -s -n -X POST https://api.heroku.com/apps/trackapio-site/builds \
 -d "$REQ_DATA" \
 -H 'Accept: application/vnd.heroku+json; version=3' \
 -H "Content-Type: application/json" \
