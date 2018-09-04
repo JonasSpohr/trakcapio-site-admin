@@ -27,4 +27,7 @@ BUILD_OUTPUT=`curl -s -n -X POST https://api.heroku.com/apps/trackapio-admin/bui
 
 STREAM_URL=`echo $BUILD_OUTPUT | python -c 'import sys, json; print(json.load(sys.stdin)["output_stream_url"])'`
 
+
+
+
 curl $STREAM_URL
